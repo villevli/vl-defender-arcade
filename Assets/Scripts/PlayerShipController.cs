@@ -57,9 +57,10 @@ namespace VLDefenderArcade
 
         private void ShootProjectile()
         {
-            var pos = _cannon.position;
+            var pos = _cannon.localPosition;
             if (_spriteRenderer.flipX)
                 pos.x *= -1;
+            pos = transform.position + pos;
             var rot = _spriteRenderer.flipX ? Quaternion.Euler(0, 0, 180) : Quaternion.identity;
             _projectilePool.Spawn(_projectilePrefab, pos, rot);
             _fireTimer = 0;
