@@ -14,7 +14,13 @@ namespace VLDefenderArcade
         private float _lifetime = 1.0f;
 
         private Map _map;
+        private float _inheritedSpeed = 0;
         private float _elapsed = 0;
+
+        public void InheritSpeed(float speed)
+        {
+            _inheritedSpeed = speed;
+        }
 
         private void Start()
         {
@@ -24,6 +30,7 @@ namespace VLDefenderArcade
         private void OnEnable()
         {
             _elapsed = 0;
+            _inheritedSpeed = 0;
         }
 
         private void OnDisable()
@@ -35,7 +42,7 @@ namespace VLDefenderArcade
 
         private void Update()
         {
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
+            transform.Translate((_speed + _inheritedSpeed) * Time.deltaTime, 0, 0);
 
             _elapsed += Time.deltaTime;
             if (_elapsed >= _lifetime)

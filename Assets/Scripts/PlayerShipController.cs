@@ -9,7 +9,11 @@ namespace VLDefenderArcade
     public class PlayerShipController : MonoBehaviour
     {
         [SerializeField]
-        private float _speed = 5.0f;
+        private Vector2 _maxSpeed = new(20.0f, 10.0f);
+        [SerializeField]
+        private Vector2 _acceleration = new(100.0f, 10000);
+        [SerializeField]
+        private Vector2 _breakDamping = new(3, 100);
         [SerializeField]
         private float _fireRate = 0.1f;
 
@@ -20,6 +24,8 @@ namespace VLDefenderArcade
 
         [SerializeField]
         private float _cameraOffsetX = 4;
+        [SerializeField]
+        private float _cameraFollowSpeed = 5;
 
         [SerializeField]
         private GameObject _projectilePrefab;
@@ -33,6 +39,7 @@ namespace VLDefenderArcade
 
         private Map _map;
 
+        private Vector2 _velocity;
         private float _fireTimer;
         private GameObjectPool _projectilePool = new();
 
@@ -51,18 +58,38 @@ namespace VLDefenderArcade
 
         private void Update()
         {
-            var moveValue = _moveAction.ReadValue<Vector2>() * _speed * Time.deltaTime;
-            transform.Translate(moveValue.x, moveValue.y, 0);
+            var moveInput = _moveAction.ReadValue<Vector2>();
+
+            var acceleration = moveInput * _acceleration;
+
+            // Make turning faster
+            if (Mathf.Sign(_velocity.x) != Mathf.Sign(moveInput.x))
+                acceleration.x *= 2;
+
+            _velocity += acceleration * Time.deltaTime;
+
+            // Max speed
+            _velocity.x = Mathf.Clamp(_velocity.x, -_maxSpeed.x, _maxSpeed.x);
+            _velocity.y = Mathf.Clamp(_velocity.y, -_maxSpeed.y, _maxSpeed.y);
+
+            // Breaking
+            if (moveInput.x == 0)
+                _velocity.x += -_velocity.x * Mathf.Min(1, _breakDamping.x * Time.deltaTime);
+            if (moveInput.y == 0)
+                _velocity.y += -_velocity.y * Mathf.Min(1, _breakDamping.y * Time.deltaTime);
+
+            var deltaPos = _velocity * Time.deltaTime;
+            transform.Translate(deltaPos.x, deltaPos.y, 0);
 
             var pos = transform.position;
-            // clamp player inside vertical play area
+            // Clamp player inside vertical play area
             pos.y = Mathf.Clamp(pos.y, _yMin, _yMax);
             transform.position = pos;
 
-            // Face the ship towards movement direction
-            if (moveValue.x != 0)
+            // Face the ship towards movement input
+            if (moveInput.x != 0)
             {
-                _spriteRenderer.flipX = moveValue.x < 0;
+                _spriteRenderer.flipX = moveInput.x < 0;
             }
 
             if (_fireTimer > _fireRate && _attackAction.IsPressed())
@@ -82,10 +109,11 @@ namespace VLDefenderArcade
 
             var targetX = transform.position.x + _cameraOffsetX * (_spriteRenderer.flipX ? -1 : 1);
             var pos = cam.transform.position;
-            if (Mathf.Abs(targetX - pos.x) > 10)
+            var deltaX = targetX - pos.x;
+            if (Mathf.Abs(deltaX) > 10)
                 pos.x = targetX;
             else
-                pos.x = Mathf.MoveTowards(pos.x, targetX, Time.deltaTime * _speed * 2);
+                pos.x += deltaX * Mathf.Min(1, _cameraFollowSpeed * Time.deltaTime);
 
             // Shift to keep everything near origin
             if (pos.x > _map.Width / 2)
@@ -112,11 +140,15 @@ namespace VLDefenderArcade
         private void ShootProjectile()
         {
             var pos = _cannon.localPosition;
-            if (_spriteRenderer.flipX)
-                pos.x *= -1;
+            var playerDirection = _spriteRenderer.flipX ? -1f : 1f;
+            pos.x *= playerDirection;
             pos = transform.position + pos;
             var rot = _spriteRenderer.flipX ? Quaternion.Euler(0, 0, 180) : Quaternion.identity;
-            _projectilePool.Spawn(_projectilePrefab, pos, rot);
+            var go = _projectilePool.Spawn(_projectilePrefab, pos, rot);
+            if (Mathf.Sign(_velocity.x) == playerDirection && go.TryGetComponent<PlayerProjectile>(out var projectile))
+            {
+                projectile.InheritSpeed(Mathf.Abs(_velocity.x));
+            }
             _fireTimer = 0;
         }
     }

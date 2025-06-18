@@ -220,11 +220,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68100622ae84ce246bcb3f86601fee71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _maxSpeed: {x: 20, y: 10}
+  _acceleration: {x: 100, y: 10000}
+  _breakDamping: {x: 3, y: 100}
   _fireRate: 0.1
   _yMin: -7
   _yMax: 7
   _cameraOffsetX: 4
+  _cameraFollowSpeed: 10
   _projectilePrefab: {fileID: 8661554933844672517, guid: a36a58aa1e13658489172c0409422e5b, type: 3}
   _cannon: {fileID: 2072672429}
   _spriteRenderer: {fileID: 204682405}
