@@ -14,6 +14,14 @@ namespace VLDefenderArcade
         private float _fireRate = 0.1f;
 
         [SerializeField]
+        private float _yMin = -10;
+        [SerializeField]
+        private float _yMax = 10;
+
+        [SerializeField]
+        private float _cameraOffsetX = 4;
+
+        [SerializeField]
         private GameObject _projectilePrefab;
         [SerializeField, Tooltip("Projectiles are launched from this")]
         private Transform _cannon;
@@ -42,6 +50,11 @@ namespace VLDefenderArcade
             var moveValue = _moveAction.ReadValue<Vector2>() * _speed * Time.deltaTime;
             transform.Translate(moveValue.x, moveValue.y, 0);
 
+            var pos = transform.position;
+            // clamp player inside vertical play area
+            pos.y = Mathf.Clamp(pos.y, _yMin, _yMax);
+            transform.position = pos;
+
             // Face the ship towards movement direction
             if (moveValue.x != 0)
             {
@@ -53,6 +66,23 @@ namespace VLDefenderArcade
                 ShootProjectile();
             }
             _fireTimer += Time.deltaTime;
+
+            UpdateCamera();
+        }
+
+        private void UpdateCamera()
+        {
+            var cam = Camera.main;
+            if (cam == null)
+                return;
+
+            var targetX = transform.position.x + _cameraOffsetX * (_spriteRenderer.flipX ? -1 : 1);
+            var pos = cam.transform.position;
+            if (Mathf.Abs(targetX - pos.x) > 10)
+                pos.x = targetX;
+            else
+                pos.x = Mathf.MoveTowards(pos.x, targetX, Time.deltaTime * _speed * 2);
+            cam.transform.position = pos;
         }
 
         private void ShootProjectile()

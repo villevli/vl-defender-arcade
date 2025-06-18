@@ -118,7 +118,7 @@ TrailRenderer:
       ctime7: 0
       atime0: 0
       atime1: 31737
-      atime2: 65535
+      atime2: 54867
       atime3: 0
       atime4: 0
       atime5: 0
@@ -152,5 +152,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7235615333d04b4786890c061364229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
-  _lifetime: 1
+  _speed: 30
+  _lifetime: 0.5

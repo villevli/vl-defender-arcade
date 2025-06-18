@@ -102,7 +102,7 @@
                 {
                     "name": "WASD",
                     "id": "00ca640b-d935-4593-8157-c05846ea39b3",
-                    "path": "Vector2NoCancel",
+                    "path": "Vector2NoCancel(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -157,7 +157,7 @@
                 {
                     "name": "Arrow Keys",
                     "id": "0b86c01f-175c-4293-97c1-ade35bfe6a63",
-                    "path": "Vector2NoCancel",
+                    "path": "Vector2NoCancel(mode=1)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
