@@ -31,6 +31,8 @@ namespace VLDefenderArcade
         private InputAction _moveAction;
         private InputAction _attackAction;
 
+        private Map _map;
+
         private float _fireTimer;
         private GameObjectPool _projectilePool = new();
 
@@ -43,6 +45,8 @@ namespace VLDefenderArcade
         {
             _moveAction = InputSystem.actions.FindAction("Move");
             _attackAction = InputSystem.actions.FindAction("Attack");
+
+            _map = Map.Find(gameObject);
         }
 
         private void Update()
@@ -82,7 +86,27 @@ namespace VLDefenderArcade
                 pos.x = targetX;
             else
                 pos.x = Mathf.MoveTowards(pos.x, targetX, Time.deltaTime * _speed * 2);
+
+            // Shift to keep everything near origin
+            if (pos.x > _map.Width / 2)
+            {
+                pos.x -= _map.Width;
+                Shift(-_map.Width);
+            }
+            if (pos.x < -_map.Width / 2)
+            {
+                pos.x += _map.Width;
+                Shift(_map.Width);
+            }
+
             cam.transform.position = pos;
+        }
+
+        private void Shift(float amount)
+        {
+            var pos = transform.position;
+            pos.x += amount;
+            transform.position = pos;
         }
 
         private void ShootProjectile()

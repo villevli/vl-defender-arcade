@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 
 namespace VLDefenderArcade
@@ -12,7 +13,13 @@ namespace VLDefenderArcade
         [SerializeField]
         private float _lifetime = 1.0f;
 
+        private Map _map;
         private float _elapsed = 0;
+
+        private void Start()
+        {
+            _map = Map.Find(gameObject);
+        }
 
         private void OnEnable()
         {
@@ -34,6 +41,43 @@ namespace VLDefenderArcade
             if (_elapsed >= _lifetime)
             {
                 GameObjectPool.Destroy(gameObject);
+            }
+        }
+
+        private void LateUpdate()
+        {
+            var cam = Camera.main;
+            if (cam == null)
+                return;
+
+            // Shift
+            var pos = transform.position;
+            var camPos = cam.transform.position;
+            if (pos.x - camPos.x > _map.Width / 2)
+            {
+                pos.x -= _map.Width;
+                Shift(-_map.Width);
+            }
+            if (pos.x - camPos.x < -_map.Width / 2)
+            {
+                pos.x += _map.Width;
+                Shift(_map.Width);
+            }
+            transform.position = pos;
+        }
+
+        private void Shift(float amount)
+        {
+            if (TryGetComponent<TrailRenderer>(out var tr))
+            {
+                using var buffer = new NativeArray<Vector3>(tr.positionCount, Allocator.Temp, NativeArrayOptions.UninitializedMemory);
+                tr.GetPositions(buffer);
+                var span = buffer.AsSpan();
+                for (int i = 0; i < span.Length; i++)
+                {
+                    span[i].x += amount;
+                }
+                tr.SetPositions(buffer);
             }
         }
     }
