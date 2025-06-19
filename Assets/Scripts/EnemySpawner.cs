@@ -67,8 +67,8 @@ namespace VLDefenderArcade
                 Random.Range(_area.xMin, _area.xMax),
                 Random.Range(_area.yMin, _area.yMax)
             );
-            var go = Instantiate(_enemyPrefab, pos, Quaternion.identity);
-            var sgo = go.AddComponent<SpawnedGameObject>();
+            var go = GameObjectPool.Spawn(_enemyPrefab, pos, Quaternion.identity);
+            var sgo = go.GetOrAddComponent<SpawnedGameObject>();
             sgo.SpawnedFrom = this;
             _spawned.Add(sgo);
 

@@ -41,7 +41,6 @@ namespace VLDefenderArcade
 
         private Vector2 _velocity;
         private float _fireTimer;
-        private GameObjectPool _projectilePool = new();
 
         private void Reset()
         {
@@ -144,7 +143,7 @@ namespace VLDefenderArcade
             pos.x *= playerDirection;
             pos = transform.position + pos;
             var rot = _spriteRenderer.flipX ? Quaternion.Euler(0, 0, 180) : Quaternion.identity;
-            var go = _projectilePool.Spawn(_projectilePrefab, pos, rot);
+            var go = GameObjectPool.Spawn(_projectilePrefab, pos, rot);
             if (Mathf.Sign(_velocity.x) == playerDirection && go.TryGetComponent<PlayerProjectile>(out var projectile))
             {
                 projectile.InheritSpeed(Mathf.Abs(_velocity.x));

@@ -58,8 +58,8 @@ namespace VLDefenderArcade
 
         public void Kill()
         {
-            Instantiate(_deathFxPrefab, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            GameObjectPool.Spawn(_deathFxPrefab, transform.position, Quaternion.identity);
+            GameObjectPool.Destroy(gameObject);
         }
     }
 }
