@@ -12,8 +12,13 @@ namespace VLDefenderArcade
         [SerializeField]
         private GameObject _deathFxPrefab;
 
+        [SerializeField]
+        private int _score = 100;
+
         private Vector2 _moveDirection = new(1, -0.5f);
         private Map _map;
+
+        public int Score => _score;
 
         private void Start()
         {
@@ -54,6 +59,14 @@ namespace VLDefenderArcade
                 pos.x += _map.Width;
             }
             transform.position = pos;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.TryGetComponent<PlayerShipController>(out var player))
+            {
+                player.Damage();
+            }
         }
 
         public void Kill()

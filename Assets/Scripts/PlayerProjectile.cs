@@ -15,8 +15,14 @@ namespace VLDefenderArcade
 
         private Map _map;
         private float _inheritedSpeed = 0;
+        private PlayerShipController _player;
         private float _elapsed = 0;
         private Enemy _hitEnemy;
+
+        public void SetPlayer(PlayerShipController player)
+        {
+            _player = player;
+        }
 
         public void InheritSpeed(float speed)
         {
@@ -32,6 +38,7 @@ namespace VLDefenderArcade
         {
             _elapsed = 0;
             _inheritedSpeed = 0;
+            _player = null;
             _hitEnemy = null;
         }
 
@@ -48,6 +55,7 @@ namespace VLDefenderArcade
             if (_hitEnemy)
             {
                 _hitEnemy.Kill();
+                _player.GiveScore(_hitEnemy.Score);
                 _hitEnemy = null;
                 // projectile gets destroyed
                 GameObjectPool.Destroy(gameObject);

@@ -9,6 +9,9 @@ namespace VLDefenderArcade
     public class PlayerShipController : MonoBehaviour
     {
         [SerializeField]
+        private int _lives = 5;
+
+        [SerializeField]
         private Vector2 _maxSpeed = new(20.0f, 10.0f);
         [SerializeField]
         private Vector2 _acceleration = new(100.0f, 10000);
@@ -33,6 +36,8 @@ namespace VLDefenderArcade
         private Transform _cannon;
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
+        [SerializeField]
+        private GameObject _deathFxPrefab;
 
         private InputAction _moveAction;
         private InputAction _attackAction;
@@ -41,6 +46,11 @@ namespace VLDefenderArcade
 
         private Vector2 _velocity;
         private float _fireTimer;
+        private int _score;
+
+        public int Lives => _lives;
+        public bool IsGameOver => Lives <= 0;
+        public int Score => _score;
 
         private void Reset()
         {
@@ -56,6 +66,14 @@ namespace VLDefenderArcade
         }
 
         private void Update()
+        {
+            if (_lives > 0)
+                UpdateShip();
+
+            UpdateCamera();
+        }
+
+        private void UpdateShip()
         {
             var moveInput = _moveAction.ReadValue<Vector2>();
 
@@ -96,8 +114,6 @@ namespace VLDefenderArcade
                 ShootProjectile();
             }
             _fireTimer += Time.deltaTime;
-
-            UpdateCamera();
         }
 
         private void UpdateCamera()
@@ -144,11 +160,37 @@ namespace VLDefenderArcade
             pos = transform.position + pos;
             var rot = _spriteRenderer.flipX ? Quaternion.Euler(0, 0, 180) : Quaternion.identity;
             var go = GameObjectPool.Spawn(_projectilePrefab, pos, rot);
-            if (Mathf.Sign(_velocity.x) == playerDirection && go.TryGetComponent<PlayerProjectile>(out var projectile))
+            if (go.TryGetComponent<PlayerProjectile>(out var projectile))
             {
-                projectile.InheritSpeed(Mathf.Abs(_velocity.x));
+                projectile.SetPlayer(this);
+
+                if (Mathf.Sign(_velocity.x) == playerDirection)
+                    projectile.InheritSpeed(Mathf.Abs(_velocity.x));
             }
             _fireTimer = 0;
+        }
+
+        public void GiveScore(int score)
+        {
+            _score += score;
+        }
+
+        public void Damage()
+        {
+            if (_lives <= 0)
+                return;
+
+            _lives--;
+            if (_lives <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        private void GameOver()
+        {
+            GameObjectPool.Spawn(_deathFxPrefab, transform.position, Quaternion.identity);
+            _spriteRenderer.enabled = false;
         }
     }
 }
