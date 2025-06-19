@@ -8,7 +8,7 @@ namespace VLDefenderArcade
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField]
-        private Rect _area = new(-32, -2, 64, 4);
+        private Vector2 _size = new(64, 4);
 
         [SerializeField]
         private float _intervalMin = 2;
@@ -23,6 +23,8 @@ namespace VLDefenderArcade
 
         private float _spawnTimer;
         private List<SpawnedGameObject> _spawned = new();
+
+        public Rect Area => new((Vector2)transform.position - _size / 2, _size);
 
         private class SpawnedGameObject : MonoBehaviour
         {
@@ -58,21 +60,28 @@ namespace VLDefenderArcade
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(transform.position + (Vector3)_area.center, _area.size);
+            Gizmos.DrawWireCube(transform.position, _size);
         }
 
         private void Spawn()
         {
-            var pos = transform.position + new Vector3(
-                Random.Range(_area.xMin, _area.xMax),
-                Random.Range(_area.yMin, _area.yMax)
-            );
+            var pos = RandomizeSpawnPos();
             var go = GameObjectPool.Spawn(_enemyPrefab, pos, Quaternion.identity);
             var sgo = go.GetOrAddComponent<SpawnedGameObject>();
             sgo.SpawnedFrom = this;
             _spawned.Add(sgo);
 
             RandomizeTimer();
+        }
+
+        private Vector3 RandomizeSpawnPos()
+        {
+            var area = this.Area;
+            return new(
+                Random.Range(area.xMin, area.xMax),
+                Random.Range(area.yMin, area.yMax),
+                transform.position.z
+            );
         }
     }
 }

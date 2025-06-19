@@ -347,8 +347,6 @@ MonoBehaviour:
   _acceleration: {x: 100, y: 10000}
   _breakDamping: {x: 3, y: 100}
   _fireRate: 0.1
-  _yMin: -7
-  _yMax: 7
   _cameraOffsetX: 4
   _cameraFollowSpeed: 10
   _projectilePrefab: {fileID: 8661554933844672517, guid: a36a58aa1e13658489172c0409422e5b, type: 3}
@@ -1000,12 +998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1823acefa4979489ae09bc0d89cb6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _area:
-    serializedVersion: 2
-    x: -32
-    y: -2
-    width: 64
-    height: 4
+  _size: {x: 64, y: 4}
   _intervalMin: 2
   _intervalMax: 5
   _enemyPrefab: {fileID: 5186044125363134186, guid: 52c811ff9c7711e48ab12bea4bf95895, type: 3}
@@ -1729,7 +1722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cfcd8ffd3c1f564bb874afa41c7e4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: {x: 64, y: 12}
+  _size: {x: 64, y: 13}
 --- !u!4 &2069713239
 Transform:
   m_ObjectHideFlags: 0
@@ -1739,7 +1732,7 @@ Transform:
   m_GameObject: {fileID: 2069713237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

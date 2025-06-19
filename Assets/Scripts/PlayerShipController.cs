@@ -21,11 +21,6 @@ namespace VLDefenderArcade
         private float _fireRate = 0.1f;
 
         [SerializeField]
-        private float _yMin = -10;
-        [SerializeField]
-        private float _yMax = 10;
-
-        [SerializeField]
         private float _cameraOffsetX = 4;
         [SerializeField]
         private float _cameraFollowSpeed = 5;
@@ -100,7 +95,10 @@ namespace VLDefenderArcade
 
             var pos = transform.position;
             // Clamp player inside vertical play area
-            pos.y = Mathf.Clamp(pos.y, _yMin, _yMax);
+            pos.y = Mathf.Clamp(pos.y,
+                _map.Area.yMin + 0.3f,
+                _map.Area.yMax + -0.3f
+            );
             transform.position = pos;
 
             // Face the ship towards movement input

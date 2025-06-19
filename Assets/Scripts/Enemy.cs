@@ -32,9 +32,9 @@ namespace VLDefenderArcade
                 _moveDirection.x *= -1;
 
             var pos = transform.position;
-            if (pos.y > _map.Rect.yMax - 1)
+            if (pos.y > _map.Area.yMax - 0.5f)
                 _moveDirection.y = -0.5f;
-            if (pos.y < _map.Rect.yMin + 1)
+            if (pos.y < _map.Area.yMin + 0.5f)
                 _moveDirection.y = 0.5f;
 
             pos += (Vector3)(_speed * Time.deltaTime * _moveDirection);

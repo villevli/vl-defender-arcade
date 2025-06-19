@@ -15,7 +15,7 @@ namespace VLDefenderArcade
         public float Width => _size.x;
         public float Height => _size.y;
 
-        public Rect Rect => new(-_size / 2, _size);
+        public Rect Area => new((Vector2)transform.position - _size / 2, _size);
 
         // Support different map per scene
         private static Dictionary<Scene, Map> _sceneDict = new();
