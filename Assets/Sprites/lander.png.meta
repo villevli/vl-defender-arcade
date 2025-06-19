@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bfed55620e3d1c247abc570d21070ae4
+guid: f9e05b493e654d7409b8b7ce4dfef034
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7253652341725546674
-    second: space_0
+      213: -2035281301837876607
+    second: lander_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,21 +40,21 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 2
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -139,23 +139,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: space_0
+      name: lander_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
-        height: 128
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2b84bb09f562aa460800000000000000
-      internalID: 7253652341725546674
+      spriteID: 18275f9707a31c3e0800000000000000
+      internalID: -2035281301837876607
       vertices: []
       indices: 
       edges: []
@@ -165,7 +165,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      space_0: 7253652341725546674
+      lander_0: -2035281301837876607
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

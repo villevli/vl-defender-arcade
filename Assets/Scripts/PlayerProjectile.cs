@@ -51,6 +51,17 @@ namespace VLDefenderArcade
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            // Debug.Log($"{name} OnTriggerEnter2D {other.name}");
+            if (other.TryGetComponent<Enemy>(out var enemy))
+            {
+                enemy.Kill();
+                // projectile gets destroyed
+                GameObjectPool.Destroy(gameObject);
+            }
+        }
+
         private void LateUpdate()
         {
             var cam = Camera.main;
