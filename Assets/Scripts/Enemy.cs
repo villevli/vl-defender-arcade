@@ -10,6 +10,11 @@ namespace VLDefenderArcade
         private float _speed = 2;
 
         [SerializeField]
+        private float _fireRate = 2;
+        [SerializeField]
+        private GameObject _projectilePrefab;
+
+        [SerializeField]
         private GameObject _deathFxPrefab;
 
         [SerializeField]
@@ -17,12 +22,18 @@ namespace VLDefenderArcade
 
         private Vector2 _moveDirection = new(1, -0.5f);
         private Map _map;
+        private float _fireTimer;
 
         public int Score => _score;
 
         private void Start()
         {
             _map = Map.Find(gameObject);
+        }
+
+        private void OnEnable()
+        {
+            _fireTimer = 0;
         }
 
         private void Update()
@@ -39,6 +50,12 @@ namespace VLDefenderArcade
 
             pos += (Vector3)(_speed * Time.deltaTime * _moveDirection);
             transform.position = pos;
+
+            if (_fireTimer > _fireRate)
+            {
+                ShootProjectile();
+            }
+            _fireTimer += Time.deltaTime;
         }
 
         private void LateUpdate()
@@ -73,6 +90,16 @@ namespace VLDefenderArcade
         {
             GameObjectPool.Spawn(_deathFxPrefab, transform.position, Quaternion.identity);
             GameObjectPool.Destroy(gameObject);
+        }
+
+        private void ShootProjectile()
+        {
+            var go = GameObjectPool.Spawn(_projectilePrefab, transform.position, Quaternion.identity);
+            if (go.TryGetComponent<EnemyProjectile>(out var projectile))
+            {
+                projectile.Launch(new(1.0f, 0f));
+            }
+            _fireTimer = 0;
         }
     }
 }
