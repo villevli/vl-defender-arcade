@@ -1,4 +1,3 @@
-using Unity.Collections;
 using UnityEngine;
 
 namespace VLDefenderArcade
@@ -12,7 +11,6 @@ namespace VLDefenderArcade
         [SerializeField]
         private float _lifetime = 5.0f;
 
-        private Map _map;
         private float _elapsed = 0;
 
         public void Launch(Vector2 direction)
@@ -21,11 +19,6 @@ namespace VLDefenderArcade
             {
                 rb.linearVelocity = direction * _speed;
             }
-        }
-
-        private void Start()
-        {
-            _map = Map.Find(gameObject);
         }
 
         private void OnEnable()
@@ -57,32 +50,6 @@ namespace VLDefenderArcade
                 GameObjectPool.Destroy(gameObject);
                 return;
             }
-        }
-
-        private void LateUpdate()
-        {
-            var cam = Camera.main;
-            if (cam == null)
-                return;
-
-            // Shift
-            var pos = transform.position;
-            var camPos = cam.transform.position;
-            if (pos.x - camPos.x > _map.Width / 2)
-            {
-                pos.x -= _map.Width;
-                Shift(-_map.Width);
-            }
-            if (pos.x - camPos.x < -_map.Width / 2)
-            {
-                pos.x += _map.Width;
-                Shift(_map.Width);
-            }
-            transform.position = pos;
-        }
-
-        private void Shift(float amount)
-        {
         }
     }
 }

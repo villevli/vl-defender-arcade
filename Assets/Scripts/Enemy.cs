@@ -58,26 +58,6 @@ namespace VLDefenderArcade
             _fireTimer += Time.deltaTime;
         }
 
-        private void LateUpdate()
-        {
-            var cam = Camera.main;
-            if (cam == null)
-                return;
-
-            // Shift
-            var pos = transform.position;
-            var camPos = cam.transform.position;
-            if (pos.x - camPos.x > _map.Width / 2)
-            {
-                pos.x -= _map.Width;
-            }
-            if (pos.x - camPos.x < -_map.Width / 2)
-            {
-                pos.x += _map.Width;
-            }
-            transform.position = pos;
-        }
-
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.TryGetComponent<PlayerShipController>(out var player))

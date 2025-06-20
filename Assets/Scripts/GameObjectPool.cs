@@ -107,6 +107,10 @@ namespace VLDefenderArcade
             {
                 go.SetActive(false);
                 pool.Add(pgo);
+
+                // Needed to fix the effect when pooled
+                if (go.TryGetComponent<TrailRenderer>(out var tr))
+                    tr.Clear();
             }
             else
             {

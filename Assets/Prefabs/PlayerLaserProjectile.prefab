@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6888054637987664275}
   - component: {fileID: 4242985685582117489}
+  - component: {fileID: 7395905812767332895}
   - component: {fileID: 6164156426336684215}
   m_Layer: 0
   m_Name: PlayerLaserProjectile
@@ -140,6 +141,18 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &7395905812767332895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8661554933844672517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7963194a02ab5a74c969761cb2e6a532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6164156426336684215
 MonoBehaviour:
   m_ObjectHideFlags: 0

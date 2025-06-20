@@ -129,15 +129,16 @@ namespace VLDefenderArcade
                 pos.x += deltaX * Mathf.Min(1, _cameraFollowSpeed * Time.deltaTime);
 
             // Shift to keep everything near origin
-            if (pos.x > _map.Width / 2)
+            var area = _map.Area;
+            if (pos.x > area.xMax)
             {
-                pos.x -= _map.Width;
-                Shift(-_map.Width);
+                pos.x -= area.width;
+                Shift(-area.width);
             }
-            if (pos.x < -_map.Width / 2)
+            if (pos.x < area.xMin)
             {
-                pos.x += _map.Width;
-                Shift(_map.Width);
+                pos.x += area.width;
+                Shift(area.width);
             }
 
             cam.transform.position = pos;

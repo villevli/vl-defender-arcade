@@ -12,9 +12,6 @@ namespace VLDefenderArcade
         [SerializeField]
         private Vector2 _size = new(64, 16);
 
-        public float Width => _size.x;
-        public float Height => _size.y;
-
         public Rect Area => new((Vector2)transform.position - _size / 2, _size);
 
         // Support different map per scene

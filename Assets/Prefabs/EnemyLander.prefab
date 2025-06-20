@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 9003041719860479812}
   - component: {fileID: 8757304545126187456}
-  - component: {fileID: 2303858326695633453}
   - component: {fileID: 3432976922657767783}
   - component: {fileID: 7055314642512989833}
+  - component: {fileID: 4826485643993585735}
+  - component: {fileID: 2303858326695633453}
   m_Layer: 0
   m_Name: EnemyLander
   m_TagString: Untagged
@@ -90,23 +91,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2303858326695633453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5186044125363134186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63562a341c204e94d9575bba5b1e541b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 2
-  _fireRate: 2
-  _projectilePrefab: {fileID: 7604636228908238452, guid: e01ca8cff5edf424fbc0bab301ff822d, type: 3}
-  _deathFxPrefab: {fileID: 4905719840244080374, guid: c32dbe81919ea054484bb59d2c044c35, type: 3}
-  _score: 100
 --- !u!61 &3432976922657767783
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -180,3 +164,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4826485643993585735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5186044125363134186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7963194a02ab5a74c969761cb2e6a532, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2303858326695633453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5186044125363134186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63562a341c204e94d9575bba5b1e541b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 2
+  _fireRate: 2
+  _projectilePrefab: {fileID: 7604636228908238452, guid: e01ca8cff5edf424fbc0bab301ff822d, type: 3}
+  _deathFxPrefab: {fileID: 4905719840244080374, guid: c32dbe81919ea054484bb59d2c044c35, type: 3}
+  _score: 100
