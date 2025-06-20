@@ -47,7 +47,7 @@ namespace VLDefenderArcade
 
             _gameOverScreen.SetActive(_player.IsGameOver);
 
-            if (_player.IsGameOver && (_submitAction.WasPerformedThisFrame() || _clickAction.WasPerformedThisFrame()))
+            if (_player.IsGameOver && (_submitAction.WasPressedThisFrame() || _clickAction.WasPressedThisFrame()))
             {
                 RestartGame();
             }
