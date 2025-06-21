@@ -344,8 +344,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lives: 5
   _maxSpeed: {x: 20, y: 10}
-  _acceleration: {x: 100, y: 10000}
-  _breakDamping: {x: 3, y: 100}
+  _acceleration: {x: 50, y: 10000}
+  _breakDamping: {x: 2, y: 100}
   _fireRate: 0.1
   _cameraOffsetX: 4
   _cameraFollowSpeed: 10

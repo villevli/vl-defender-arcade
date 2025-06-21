@@ -14,16 +14,16 @@ namespace VLDefenderArcade
         [SerializeField]
         private Vector2 _maxSpeed = new(20.0f, 10.0f);
         [SerializeField]
-        private Vector2 _acceleration = new(100.0f, 10000);
+        private Vector2 _acceleration = new(50.0f, 10000);
         [SerializeField]
-        private Vector2 _breakDamping = new(3, 100);
+        private Vector2 _breakDamping = new(2, 100);
         [SerializeField]
         private float _fireRate = 0.1f;
 
         [SerializeField]
         private float _cameraOffsetX = 4;
         [SerializeField]
-        private float _cameraFollowSpeed = 5;
+        private float _cameraFollowSpeed = 10;
 
         [SerializeField]
         private GameObject _projectilePrefab;
@@ -62,7 +62,7 @@ namespace VLDefenderArcade
 
         private void Update()
         {
-            if (_lives > 0)
+            if (!IsGameOver)
                 UpdateShip();
 
             UpdateCamera();
@@ -120,28 +120,37 @@ namespace VLDefenderArcade
             if (cam == null)
                 return;
 
-            var targetX = transform.position.x + _cameraOffsetX * (_spriteRenderer.flipX ? -1 : 1);
-            var pos = cam.transform.position;
-            var deltaX = targetX - pos.x;
+            var camPos = cam.transform.position;
+            var playerDir = _spriteRenderer.flipX ? -1 : 1;
+
+            // Camera follows player ship
+            var targetX = transform.position.x + _cameraOffsetX * playerDir;
+            var deltaX = targetX - camPos.x;
             if (Mathf.Abs(deltaX) > 10)
-                pos.x = targetX;
+            {
+                camPos.x = targetX;
+            }
             else
-                pos.x += deltaX * Mathf.Min(1, _cameraFollowSpeed * Time.deltaTime);
+            {
+                // Camera follows slower when ship is moving slower or backwards. Feels better when the player turns
+                float followSpeed = Mathf.Lerp(_cameraFollowSpeed * 0.3f, _cameraFollowSpeed, Mathf.Clamp01(_velocity.x * playerDir / _maxSpeed.x));
+                camPos.x += deltaX * Mathf.Min(1, followSpeed * Time.deltaTime);
+            }
 
             // Shift to keep everything near origin
             var area = _map.Area;
-            if (pos.x > area.xMax)
+            if (camPos.x > area.xMax)
             {
-                pos.x -= area.width;
+                camPos.x -= area.width;
                 Shift(-area.width);
             }
-            if (pos.x < area.xMin)
+            if (camPos.x < area.xMin)
             {
-                pos.x += area.width;
+                camPos.x += area.width;
                 Shift(area.width);
             }
 
-            cam.transform.position = pos;
+            cam.transform.position = camPos;
         }
 
         private void Shift(float amount)
@@ -176,7 +185,7 @@ namespace VLDefenderArcade
 
         public void Damage()
         {
-            if (_lives <= 0)
+            if (IsGameOver)
                 return;
 
             _lives--;
