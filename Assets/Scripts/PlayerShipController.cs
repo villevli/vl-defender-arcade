@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -47,9 +48,21 @@ namespace VLDefenderArcade
         public bool IsGameOver => Lives <= 0;
         public int Score => _score;
 
+        public static List<PlayerShipController> Players = new();
+
         private void Reset()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void OnEnable()
+        {
+            Players.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            Players.Remove(this);
         }
 
         private void Start()
