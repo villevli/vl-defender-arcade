@@ -76,9 +76,7 @@ namespace VLDefenderArcade
 
         private void Update()
         {
-            if (!IsGameOver)
-                UpdateShip();
-
+            UpdateShip();
             UpdateCamera();
         }
 
@@ -229,7 +227,7 @@ namespace VLDefenderArcade
         private void GameOver()
         {
             GameObjectPool.Spawn(_deathFxPrefab, transform.position, Quaternion.identity);
-            _spriteRenderer.enabled = false;
+            gameObject.SetActive(false);
         }
 
         private IEnumerator DamageEffect()
