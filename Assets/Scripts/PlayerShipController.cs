@@ -71,6 +71,16 @@ namespace VLDefenderArcade
         private void UpdateShip()
         {
             var moveInput = _moveAction.ReadValue<Vector2>();
+            var maxSpeed = _maxSpeed;
+
+            var deadzoneX = 0.2f;
+            moveInput.x = Mathf.Sign(moveInput.x) * Mathf.InverseLerp(deadzoneX, 1, Mathf.Abs(moveInput.x));
+
+            // Make speed more controllable with stick input
+            if (Mathf.Abs(moveInput.x) > 0f)
+            {
+                maxSpeed.x *= Mathf.Lerp(deadzoneX, 1, Mathf.Abs(moveInput.x));
+            }
 
             var acceleration = moveInput * _acceleration;
 
@@ -80,9 +90,12 @@ namespace VLDefenderArcade
 
             _velocity += acceleration * Time.deltaTime;
 
+            // Y is fixed to match input (this works best with stick input)
+            _velocity.y = moveInput.y * maxSpeed.y;
+
             // Max speed
-            _velocity.x = Mathf.Clamp(_velocity.x, -_maxSpeed.x, _maxSpeed.x);
-            _velocity.y = Mathf.Clamp(_velocity.y, -_maxSpeed.y, _maxSpeed.y);
+            _velocity.x = Mathf.Clamp(_velocity.x, -maxSpeed.x, maxSpeed.x);
+            _velocity.y = Mathf.Clamp(_velocity.y, -maxSpeed.y, maxSpeed.y);
 
             // Breaking
             if (moveInput.x == 0)
