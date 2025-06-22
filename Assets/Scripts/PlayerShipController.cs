@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -219,12 +220,29 @@ namespace VLDefenderArcade
             {
                 GameOver();
             }
+            else
+            {
+                StartCoroutine(DamageEffect());
+            }
         }
 
         private void GameOver()
         {
             GameObjectPool.Spawn(_deathFxPrefab, transform.position, Quaternion.identity);
             _spriteRenderer.enabled = false;
+        }
+
+        private IEnumerator DamageEffect()
+        {
+            float duration = 0.5f;
+            float t = 0;
+            while (t < duration)
+            {
+                _spriteRenderer.color = Color.Lerp(Color.white, Color.red, Mathf.PingPong(t * 20, 1));
+                t += Time.deltaTime;
+                yield return null;
+            }
+            _spriteRenderer.color = Color.white;
         }
     }
 }
