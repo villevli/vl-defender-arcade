@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace VLDefenderArcade
@@ -26,6 +27,8 @@ namespace VLDefenderArcade
 
         public int Score => _score;
 
+        public static List<Enemy> Enemies = new();
+
         private void Start()
         {
             _map = Map.Find(gameObject);
@@ -34,6 +37,13 @@ namespace VLDefenderArcade
         private void OnEnable()
         {
             _fireTimer = 0;
+
+            Enemies.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            Enemies.Remove(this);
         }
 
         private void Update()
